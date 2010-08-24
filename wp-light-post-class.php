@@ -20,8 +20,10 @@ if (!class_exists('WPLightPost')) {
 		// Constructor
 		function __construct() {
 			// Register (de)activation hook
-			register_activation_hook(__FILE__, array(&$this, 'Activate'));
-			register_deactivation_hook(__FILE__, array(&$this, 'Deactivate'));
+			$bt = debug_backtrace();
+			$file = $bt[0]['file'];
+			register_activation_hook($file, array(&$this, 'Activate'));
+			register_deactivation_hook($file, array(&$this, 'Deactivate'));
 
 			// Register actions/filters
 			add_action('init', array(&$this, 'Init'));
