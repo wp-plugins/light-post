@@ -1,0 +1,106 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Light Post\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/light-post\n"
+"POT-Creation-Date: 2010-08-24 14:25+0000\n"
+"PO-Revision-Date: 2010-08-24 16:59+0100\n"
+"Last-Translator: Marcel Bokhorst\n"
+"Language-Team: Marcel Bokhorst\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: BELGIUM\n"
+
+msgid "Light Post"
+msgstr "Light Post"
+
+msgid "Redirect login:"
+msgstr "Stuur login door:"
+
+msgid "Post box height:"
+msgstr "Hoogte bericht:"
+
+msgid "Number of posts to display:"
+msgstr "Aantal berichten te tonen:"
+
+msgid "Clean on deactivate:"
+msgstr "Opschonen bij deactivatie:"
+
+msgid "I have donated to this plugin:"
+msgstr "Ik heb gedoneerd:"
+
+msgid "Save Changes"
+msgstr "Bewaar wijzigingen"
+
+msgid "Privacy in the Sustainable Plugins Sponsorship Network"
+msgstr "Privacy in het Sustainable Plugins Sponsorship Network"
+
+msgid "Resources"
+msgstr "Bronnen"
+
+msgid "Frequently asked questions"
+msgstr "Veel gestelde vragen"
+
+msgid "Support page"
+msgstr "Ondersteuningspagina"
+
+msgid "About the author"
+msgstr "Over de auteur"
+
+msgid "Upload image failed"
+msgstr "Upload afbeelding mislukt"
+
+msgid "Admin"
+msgstr "Administratie"
+
+msgid "Logout"
+msgstr "Uitloggen"
+
+msgid "Title:"
+msgstr "Titel:"
+
+msgid "Draft"
+msgstr "Klad"
+
+msgid "Tags:"
+msgstr "Sleutelwoorden:"
+
+msgid "Category:"
+msgstr "Categorie:"
+
+msgid "Save Draft"
+msgstr "Bewaar klad"
+
+msgid "Publish"
+msgstr "Publiceer"
+
+msgid "Preview"
+msgstr "Voorvertoning"
+
+msgid "Rich Edit"
+msgstr "Rijke opmaak"
+
+msgid "Small"
+msgstr "Klein"
+
+msgid "Medium"
+msgstr "Middel"
+
+msgid "Large"
+msgstr "Groot"
+
+msgid "Image"
+msgstr "Afbeelding"
+
+msgid "New post"
+msgstr "Nieuw bericht"
+
+msgid "Donate"
+msgstr "Doneer"
+
