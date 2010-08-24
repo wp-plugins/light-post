@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: post, posts, editor
 Requires at least: 3.0
 Tested up to: 3.0.1
-Stable tag: 0.2
+Stable tag: 0.3
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
@@ -54,6 +54,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 0.3 =
+* Added post row action
+
 = 0.2 =
 * Added Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
@@ -64,6 +67,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 0.3 =
+New feature: post row action
 
 = 0.2 =
 Translations

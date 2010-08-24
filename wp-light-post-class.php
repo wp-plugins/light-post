@@ -32,6 +32,7 @@ if (!class_exists('WPLightPost')) {
 				add_action('post_submitbox_start', array(&$this, 'Post_submitbox_start'));
 			}
 			add_filter('login_redirect', array(&$this, 'Login_redirect'));
+			add_filter('post_row_actions', array(&$this, 'Post_row_actions'), 10, 2);
 		}
 
 		// Handle plugin activation
@@ -77,7 +78,7 @@ if (!class_exists('WPLightPost')) {
 
 		// Extend post meta box
 		function Post_submitbox_start() {
-			echo '<div><a href="' . plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID='. $post->ID, __FILE__) . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
+			echo '<div><a href="' . plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID=', __FILE__) . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
 		}
 
 		// Helper: get post id
@@ -95,6 +96,13 @@ if (!class_exists('WPLightPost')) {
 				return plugins_url('wp-light-post.php?abspath=' . ABSPATH, __FILE__);
 			else
 				return $redirect_to;
+		}
+
+		// Filter: add row action
+		function Post_row_actions($actions, $post = null) {
+			if ($post)
+				$actions['light-post'] = '<a href="' . plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID='. $post->ID, __FILE__) . '">' . __('Light Post', c_wplp_text_domain) . '</a>';
+			return $actions;
 		}
 
 		// Add options page
