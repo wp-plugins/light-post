@@ -1,0 +1,106 @@
+
+/* Light Post */
+
+/* Options */
+
+#light-post-sponsorship {
+	font-size: 9px;
+}
+
+#light-post-resources {
+	float: right;
+	padding: 10px;
+	width: 180px;
+	margin-top: 30px;
+	border: 1px solid #CCCCCC;
+	background-color: #FFFEEB;
+}
+
+#light-post-options {
+	float: left;
+}
+
+#light-post-options input[type="text"] {
+	width: 50px;
+	text-align: right;
+}
+
+/* Form */
+
+#light-post {
+	font-family: Verdana;
+	font-size: 12px;
+	color: black;
+}
+
+#light-post a:link,
+#light-post a:visited,
+#light-post a:hover,
+#light-post a:active {
+	color: #0000FF
+}
+
+#light-post p {
+	margin: 5px 0;
+}
+
+#light-post input[type="text"] {
+	width: 250px;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+#light-post select {
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+#light-post textarea {
+	height: 300px;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	margin: 5px 0;
+}
+
+#light-post input[type="submit"] {
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+#light-post-list {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: #808080;
+	border-collapse: collapse;
+	width: 99%;
+	margin-bottom: 10px;
+}
+
+#light-post-list td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #808080;
+}
+
+.light-post-title {
+	font-weight: bold;
+}
+
+.light-post-box {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #808080;
+	-moz-border-radius: 5px;
+	padding-left: 5px;
+	width: 99%;
+}
+
+.light-post-draft {
+	font-weight: bold;
+}
