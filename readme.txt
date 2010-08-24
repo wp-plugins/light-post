@@ -55,7 +55,7 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 == Changelog ==
 
 = 0.2 =
-* Added Dutch (nl\_NL) and Flemish (be\_NL) translations
+* Added Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
 = 0.1 =
 * Initial version
