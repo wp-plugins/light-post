@@ -560,8 +560,8 @@ if (!class_exists('WPLightPost')) {
 		function Check_prerequisites() {
 			// Check WordPress version
 			global $wp_version;
-			if (version_compare($wp_version, '3.0') < 0)
-				die('Light Post requires at least WordPress 3.0, installed version is ' . $wp_version);
+			if (version_compare($wp_version, '2.9') < 0)
+				die('Light Post requires at least WordPress 2.9, installed version is ' . $wp_version);
 
 			// Check basic prerequisities
 			WPLightPost::Check_function('register_activation_hook');
