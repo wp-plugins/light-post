@@ -2,7 +2,7 @@
 Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: post, posts, editor
-Requires at least: 3.0
+Requires at least: 2.9
 Tested up to: 3.0.1
 Stable tag: 0.3
 
