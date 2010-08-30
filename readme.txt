@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: post, posts, editor
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 0.3
+Stable tag: 0.4
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
@@ -54,6 +54,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 0.4 =
+* Added option to insert link
+
 = 0.3 =
 * Added post row action
 
@@ -67,6 +70,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 0.4 =
+New feature: link insert
 
 = 0.3 =
 New feature: post row action
@@ -84,3 +90,6 @@ This plugin uses:
 * [jQuery JavaScript Library](http://jquery.com/ "jQuery") published under both the GNU General Public License and MIT License
 
 * [AJAX upload](http://valums.com/ajax-upload/ "AJAX upload") by *Andrew Valums*, published under the MIT license
+
+* [a-tools](http://plugins.jquery.com/project/a-tools "a-tools") by *Andrey Kramarev*
+

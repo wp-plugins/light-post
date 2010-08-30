@@ -358,6 +358,7 @@ if (!class_exists('WPLightPost')) {
 			// Output scripts
 			wp_enqueue_script('jquery');
 			wp_enqueue_script('ajaxupload', plugins_url('/js/ajaxupload.js', __FILE__));
+			wp_enqueue_script('a-tools', plugins_url('/js/jquery.a-tools.js', __FILE__));
 			wp_print_scripts();
 
 			// Locate style sheet
@@ -373,32 +374,6 @@ if (!class_exists('WPLightPost')) {
 			<script type="text/javascript">
 			/* <![CDATA[ */
 			jQuery(document).ready(function($) {
-				$.fn.insertAtCaret = function (myValue) {
-					return this.each(function() {
-						// IE support
-						if (document.selection) {
-							this.focus();
-							sel = document.selection.createRange();
-							sel.text = myValue;
-							this.focus();
-						}
-						// Mozilla support
-						else if (this.selectionStart || this.selectionStart == '0') {
-							var startPos = this.selectionStart;
-							var endPos = this.selectionEnd;
-							var scrollTop = this.scrollTop;
-							this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
-							this.focus();
-							this.selectionStart = startPos + myValue.length;
-							this.selectionEnd = startPos + myValue.length;
-							this.scrollTop = scrollTop;
-						} else {
-							this.value += myValue;
-							this.focus();
-						}
-					});
-				};
-
 				/* Instantiate ajax upload */
 				var uploader = new AjaxUpload('post_upload', {
 					action: '<?php echo plugins_url('wp-light-post.php', __FILE__); ?>',
@@ -417,10 +392,21 @@ if (!class_exists('WPLightPost')) {
 					},
 					onComplete: function(file, response) {
 						this.enable();
-						$('[name=post_content]').insertAtCaret(response);
+						$('[name=post_content]').insertAtCaretPos(response);
 					}
 				});
 
+				/* Insert link */
+				$('[name=post_link_button]').click(function() {
+					$('[name=post_content]').replaceSelection(
+						'<a href="' + $('[name=post_link_url]').val() + '"' +
+						($('[name=post_link_check]').is(':checked') ? ' target="_blank">' : '>') +
+						$('[name=post_content]').getSelection().text + '</a>'
+					);
+					return false;
+				});
+
+				/* Auto focus */
 				if ($('[name=post_content]').val() == '')
 					$('[name=post_title]').focus();
 				else
@@ -516,6 +502,11 @@ if (!class_exists('WPLightPost')) {
 <?php				if (!get_option(c_wplp_option_donated)) { ?>
 						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank"><?php _e('Donate', c_wplp_text_domain); ?></a>
 <?php				} ?>
+				</p>
+				<p>
+					<input type="text" name="post_link_url" />
+					<input type="checkbox" name="post_link_check" value="blank" /><?php _e('New page', c_wplp_text_domain); ?>
+					<input type="button" name="post_link_button" class="button" value="<?php _e('Insert', c_wplp_text_domain); ?>" />
 				</p>
 				<table id="light-post-list">
 <?php
