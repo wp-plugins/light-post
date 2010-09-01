@@ -396,13 +396,31 @@ if (!class_exists('WPLightPost')) {
 					}
 				});
 
+				/* Bold */
+				$('[name=post_bold_button]').click(function() {
+					$('[name=post_content]').replaceSelection(
+						'<strong>' + $('[name=post_content]').getSelection().text + '</strong>'
+					);
+					return false;
+				});
+
+				/* Italic */
+				$('[name=post_italic_button]').click(function() {
+					$('[name=post_content]').replaceSelection(
+						'<em>' + $('[name=post_content]').getSelection().text + '</em>'
+					);
+					return false;
+				});
+
 				/* Insert link */
 				$('[name=post_link_button]').click(function() {
-					$('[name=post_content]').replaceSelection(
-						'<a href="' + $('[name=post_link_url]').val() + '"' +
-						($('[name=post_link_check]').is(':checked') ? ' target="_blank">' : '>') +
-						$('[name=post_content]').getSelection().text + '</a>'
-					);
+					var url = prompt('<?php _e('Url', c_wplp_text_domain); ?>', 'http://');
+					if (url != null && url != '')
+						$('[name=post_content]').replaceSelection(
+							'<a href="' + url + '"' +
+							($('[name=post_link_check]').is(':checked') ? ' target="_blank">' : '>') +
+							$('[name=post_content]').getSelection().text + '</a>'
+						);
 					return false;
 				});
 
@@ -411,6 +429,9 @@ if (!class_exists('WPLightPost')) {
 					$('[name=post_title]').focus();
 				else
 					$('[name=post_content]').focus();
+
+				/* Javascript enabled */
+				$('#post_javascript').show();
 			});
 			/* ]]> */
 			</script>
@@ -474,19 +495,12 @@ if (!class_exists('WPLightPost')) {
 ?>
 					</select></td></tr>
 				</table></div>
-<?php
-				// Text box
-				$height = intval(get_option(c_wplp_option_height));
-				if ($height > 0)
-					$height = ' style="height: ' . $height . 'px;"';
-?>
-				<textarea name="post_content" rows="20" cols="80" class="light-post-box"<?php echo $height; ?>><?php echo $post->post_content; ?></textarea>
-				<div class="light-post-box">
+				<div class="light-post-box" style="display:none;" id="post_javascript">
 				<p>
-					<input type="submit" name="save" class="button" value="<?php _e('Save Draft', c_wplp_text_domain); ?>" />
-					<input type="submit" name="publish" class="button-primary" value="<?php _e('Publish', c_wplp_text_domain); ?>" />
-					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
-					<a href="<?php echo admin_url('post.php?action=edit&post=' . $post->ID); ?>"><?php _e('Rich Edit', c_wplp_text_domain); ?></a>
+					<input type="button" name="post_bold_button" class="button" value="<?php _e('Bold', c_wplp_text_domain); ?>" />
+					<input type="button" name="post_italic_button" class="button" value="<?php _e('Italic', c_wplp_text_domain); ?>" />
+					<input type="button" name="post_link_button" class="button" value="<?php _e('Link', c_wplp_text_domain); ?>" />
+					<input type="checkbox" name="post_link_check" value="blank" /><?php _e('Blank page', c_wplp_text_domain); ?>
 				</p>
 				<p>
 <?php				if (current_user_can('upload_files')) { ?>
@@ -498,16 +512,30 @@ if (!class_exists('WPLightPost')) {
 						<a id="post_upload" href="#"><?php _e('Image', c_wplp_text_domain); ?></a>
 						<span>(&lt;<?php echo ini_get('upload_max_filesize'); ?>)</span>
 <?php				} ?>
+				</p>
+				</div>
+<?php
+				// Text box
+				$height = intval(get_option(c_wplp_option_height));
+				if ($height > 0)
+					$height = ' style="height: ' . $height . 'px;"';
+?>
+				<textarea name="post_content" rows="20" cols="80" class="light-post-box"<?php echo $height; ?>><?php echo $post->post_content; ?></textarea>
+				<div class="light-post-box">
+				<p>
+					<input type="submit" name="save" class="button" value="<?php _e('Save Draft', c_wplp_text_domain); ?>" />
+					<input type="submit" name="publish" class="button-primary" value="<?php _e('Publish', c_wplp_text_domain); ?>" />
+				</p>
+				<p>
+					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
+					<a href="<?php echo admin_url('post.php?action=edit&post=' . $post->ID); ?>"><?php _e('Rich Edit', c_wplp_text_domain); ?></a>
 					<a href="<?php echo plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&action=new', __FILE__); ?>"><?php _e('New post', c_wplp_text_domain); ?></a>
 <?php				if (!get_option(c_wplp_option_donated)) { ?>
 						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank"><?php _e('Donate', c_wplp_text_domain); ?></a>
 <?php				} ?>
 				</p>
-				<p>
-					<input type="text" name="post_link_url" />
-					<input type="checkbox" name="post_link_check" value="blank" /><?php _e('New page', c_wplp_text_domain); ?>
-					<input type="button" name="post_link_button" class="button" value="<?php _e('Insert', c_wplp_text_domain); ?>" />
-				</p>
+				</div>
+				<div class="light-post-box">
 				<table id="light-post-list">
 <?php
 					$posts = intval(get_option(c_wplp_option_posts));

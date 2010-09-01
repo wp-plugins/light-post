@@ -4,18 +4,18 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: post, posts, editor
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 0.4
+Stable tag: 0.5
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
 == Description ==
 
-Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors. Publish and edit posts using a basic high contrast HTML editor, which can be used without JavaScript and Flash. 
+Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors. Publish and edit posts using a basic high contrast HTML editor, which can be used without JavaScript and Flash.
 When JavaScript is available it is possible to upload and insert images.
 After logging in the browser is redirected directly to an alternate post management screen outside the normal WordPress environment (this can be turned off with a setting).
 The standard rich edit screen is just one click away (and visa versa).
 
-Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/ "Marcel's weblog"), so I can at least try to fix it. 
+Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/ "Marcel's weblog"), so I can at least try to fix it.
 If you rate this plugin low, please [let me know why](http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/#respond "Marcel's weblog").
 
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
@@ -55,6 +55,12 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 0.5 =
+* Improved layout & styling
+* Improved link insertion
+* Added bold/italic buttons
+* Hiding functions that require Javascript when not available
+
 = 0.4 =
 * Added option to insert link
 
@@ -71,6 +77,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 0.5 =
+New feature: bold/italic buttons; layout improvements
 
 = 0.4 =
 New feature: link insert
