@@ -523,8 +523,8 @@ if (!class_exists('WPLightPost')) {
 				<textarea name="post_content" rows="20" cols="80" class="light-post-box"<?php echo $height; ?>><?php echo $post->post_content; ?></textarea>
 				<div class="light-post-box">
 				<p>
-					<input type="submit" name="save" class="button" value="<?php _e('Save Draft', c_wplp_text_domain); ?>" />
-					<input type="submit" name="publish" class="button-primary" value="<?php _e('Publish', c_wplp_text_domain); ?>" />
+					<input type="submit" name="save" class="button" value="<?php _e($post->post_status == 'draft' ? 'Save Draft' : 'Revert to Draft', c_wplp_text_domain); ?>" />
+					<input type="submit" name="publish" class="button-primary" value="<?php _e($post->post_status == 'draft' ? 'Publish' : 'Update', c_wplp_text_domain); ?>" />
 				</p>
 				<p>
 					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
