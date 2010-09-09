@@ -9,6 +9,7 @@
 define('c_wplp_text_domain', 'wp-light-post');
 define('c_wplp_option_version', 'wplp_version');
 define('c_wplp_option_redirect', 'wplp_redirect');
+define('c_wplp_option_jquery', 'wplp_jquery');
 define('c_wplp_option_height', 'wplp_height');
 define('c_wplp_option_posts', 'wplp_posts');
 define('c_wplp_option_clean', 'wplp_clean');
@@ -51,6 +52,7 @@ if (!class_exists('WPLightPost')) {
 				// Delete options
 				delete_option(c_wplp_option_version);
 				delete_option(c_wplp_option_redirect);
+				delete_option(c_wplp_option_jquery);
 				delete_option(c_wplp_option_height);
 				delete_option(c_wplp_option_posts);
 				delete_option(c_wplp_option_clean);
@@ -137,6 +139,12 @@ if (!class_exists('WPLightPost')) {
 				</td></tr>
 
 				<tr valign="top"><th scope="row">
+					<label for="wplp_opt_jquery"><?php _e('Always dynamic content:', c_wplp_text_domain); ?></label>
+				</th><td>
+					<input id="wplp_opt_jquery" name="<?php echo c_wplp_option_jquery; ?>" type="checkbox"<?php if (get_option(c_wplp_option_jquery)) echo ' checked="checked"'; ?> />
+				</td></tr>
+
+				<tr valign="top"><th scope="row">
 					<label for="wplp_opt_height"><?php _e('Post box height:', c_wplp_text_domain); ?></label>
 				</th><td>
 					<input id="wplp_opt_height" name="<?php echo c_wplp_option_height; ?>" type="text" value="<?php echo get_option(c_wplp_option_height); ?>" />
@@ -164,6 +172,7 @@ if (!class_exists('WPLightPost')) {
 				</table>
 <?php
 				$options[] = c_wplp_option_redirect;
+				$options[] = c_wplp_option_jquery;
 				$options[] = c_wplp_option_height;
 				$options[] = c_wplp_option_posts;
 				$options[] = c_wplp_option_clean;
@@ -348,6 +357,9 @@ if (!class_exists('WPLightPost')) {
 				else
 					$post = get_default_post_to_edit('post', true);
 			}
+
+			$use_jquery = get_option(c_wplp_option_jquery) || (isset($_REQUEST['jquery']) && $_REQUEST['jquery'] == 'true');
+
 ?>
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			<html xmlns="http://www.w3.org/1999/xhtml" >
@@ -356,10 +368,12 @@ if (!class_exists('WPLightPost')) {
 			<title><?php _e('Light Post', c_wplp_text_domain); ?> - <?php echo esc_html($post->post_title); ?></title>
 <?php
 			// Output scripts
-			wp_enqueue_script('jquery');
-			wp_enqueue_script('ajaxupload', plugins_url('/js/ajaxupload.js', __FILE__));
-			wp_enqueue_script('a-tools', plugins_url('/js/jquery.a-tools.js', __FILE__));
-			wp_print_scripts();
+			if ($use_jquery) {
+				wp_enqueue_script('jquery');
+				wp_enqueue_script('ajaxupload', plugins_url('/js/ajaxupload.js', __FILE__));
+				wp_enqueue_script('a-tools', plugins_url('/js/jquery.a-tools.js', __FILE__));
+				wp_print_scripts();
+			}
 
 			// Locate style sheet
 			$css_name = 'wp-light-post.css';
@@ -371,70 +385,72 @@ if (!class_exists('WPLightPost')) {
 ?>
 			<link rel="stylesheet" id="light-post-css" href="<?php echo $css_url; ?>" type="text/css" media="all" />
 
-			<script type="text/javascript">
-			/* <![CDATA[ */
-			jQuery(document).ready(function($) {
-				/* Instantiate ajax upload */
-				var uploader = new AjaxUpload('post_upload', {
-					action: '<?php echo plugins_url('wp-light-post.php', __FILE__); ?>',
-					name: 'post_upload',
-					autoSubmit: true,
-					responseType: false,
-					onChange: function(file, extension) {},
-					onSubmit: function(file, extension) {
-						uploader.setData({
-							'abspath': '<?php echo ABSPATH; ?>',
-							'nonce': '<?php echo wp_create_nonce('light-post-upload'); ?>',
-							'size' : $('[name=post_image_size]').val(),
-							'post_ID' : '<?php echo $post->ID; ?>'
-						});
-						this.disable();
-					},
-					onComplete: function(file, response) {
-						this.enable();
-						$('[name=post_content]').insertAtCaretPos(response);
-					}
-				});
+<?php		if ($use_jquery) { ?>
+				<script type="text/javascript">
+				/* <![CDATA[ */
+				jQuery(document).ready(function($) {
+					/* Instantiate ajax upload */
+					var uploader = new AjaxUpload('post_upload', {
+						action: '<?php echo plugins_url('wp-light-post.php', __FILE__); ?>',
+						name: 'post_upload',
+						autoSubmit: true,
+						responseType: false,
+						onChange: function(file, extension) {},
+						onSubmit: function(file, extension) {
+							uploader.setData({
+								'abspath': '<?php echo ABSPATH; ?>',
+								'nonce': '<?php echo wp_create_nonce('light-post-upload'); ?>',
+								'size' : $('[name=post_image_size]').val(),
+								'post_ID' : '<?php echo $post->ID; ?>'
+							});
+							this.disable();
+						},
+						onComplete: function(file, response) {
+							this.enable();
+							$('[name=post_content]').insertAtCaretPos(response);
+						}
+					});
 
-				/* Bold */
-				$('[name=post_bold_button]').click(function() {
-					$('[name=post_content]').replaceSelection(
-						'<strong>' + $('[name=post_content]').getSelection().text + '</strong>'
-					);
-					return false;
-				});
-
-				/* Italic */
-				$('[name=post_italic_button]').click(function() {
-					$('[name=post_content]').replaceSelection(
-						'<em>' + $('[name=post_content]').getSelection().text + '</em>'
-					);
-					return false;
-				});
-
-				/* Insert link */
-				$('[name=post_link_button]').click(function() {
-					var url = prompt('<?php _e('Url', c_wplp_text_domain); ?>', 'http://');
-					if (url != null && url != '')
+					/* Bold */
+					$('[name=post_bold_button]').click(function() {
 						$('[name=post_content]').replaceSelection(
-							'<a href="' + url + '"' +
-							($('[name=post_link_check]').is(':checked') ? ' target="_blank">' : '>') +
-							$('[name=post_content]').getSelection().text + '</a>'
+							'<strong>' + $('[name=post_content]').getSelection().text + '</strong>'
 						);
-					return false;
+						return false;
+					});
+
+					/* Italic */
+					$('[name=post_italic_button]').click(function() {
+						$('[name=post_content]').replaceSelection(
+							'<em>' + $('[name=post_content]').getSelection().text + '</em>'
+						);
+						return false;
+					});
+
+					/* Insert link */
+					$('[name=post_link_button]').click(function() {
+						var url = prompt('<?php _e('Url', c_wplp_text_domain); ?>', 'http://');
+						if (url != null && url != '')
+							$('[name=post_content]').replaceSelection(
+								'<a href="' + url + '"' +
+								($('[name=post_link_check]').is(':checked') ? ' target="_blank">' : '>') +
+								$('[name=post_content]').getSelection().text + '</a>'
+							);
+						return false;
+					});
+
+					/* Auto focus */
+					if ($('[name=post_content]').val() == '')
+						$('[name=post_title]').focus();
+					else
+						$('[name=post_content]').focus();
+
+					/* Javascript enabled */
+					$('#post_javascript').show();
 				});
-
-				/* Auto focus */
-				if ($('[name=post_content]').val() == '')
-					$('[name=post_title]').focus();
-				else
-					$('[name=post_content]').focus();
-
-				/* Javascript enabled */
-				$('#post_javascript').show();
-			});
-			/* ]]> */
-			</script>
+				/* ]]> */
+				</script>
+<?php		} ?>
 			</head>
 
 			<body id="light-post">
@@ -448,6 +464,7 @@ if (!class_exists('WPLightPost')) {
 				<?php wp_nonce_field('light-post-form'); ?>
 				<input type="hidden" name="post_ID" value="<?php echo $post->ID; ?>" />
 				<input type="hidden" name="action" value="update" />
+				<input type="hidden" name="jquery" value="<?php echo $use_jquery ? 'true' : 'false'; ?>" />
 				<div class="light-post-box"><table>
 					<tr><td><span class="light-post-title"><?php _e('Title:', c_wplp_text_domain); ?></span></td>
 					<td><input type="text" name="post_title" value="<?php echo esc_html($post->post_title); ?>" />
@@ -495,14 +512,15 @@ if (!class_exists('WPLightPost')) {
 ?>
 					</select></td></tr>
 				</table></div>
-				<div class="light-post-box" style="display:none;" id="post_javascript">
-				<p>
-					<input type="button" name="post_bold_button" class="button" value="<?php _e('Bold', c_wplp_text_domain); ?>" />
-					<input type="button" name="post_italic_button" class="button" value="<?php _e('Italic', c_wplp_text_domain); ?>" />
-					<input type="button" name="post_link_button" class="button" value="<?php _e('Link', c_wplp_text_domain); ?>" />
-					<input type="checkbox" name="post_link_check" value="blank" /><?php _e('Blank page', c_wplp_text_domain); ?>
-				</p>
-				<p>
+<?php			if ($use_jquery) { ?>
+					<div class="light-post-box" style="display:none;" id="post_javascript">
+					<p>
+						<input type="button" name="post_bold_button" class="button" value="<?php _e('Bold', c_wplp_text_domain); ?>" />
+						<input type="button" name="post_italic_button" class="button" value="<?php _e('Italic', c_wplp_text_domain); ?>" />
+						<input type="button" name="post_link_button" class="button" value="<?php _e('Link', c_wplp_text_domain); ?>" />
+						<input type="checkbox" name="post_link_check" value="blank" /><?php _e('Blank page', c_wplp_text_domain); ?>
+					</p>
+					<p>
 <?php				if (current_user_can('upload_files')) { ?>
 						<select name="post_image_size">
 							<option value="thumbnail"><?php _e('Small', c_wplp_text_domain); ?></option>
@@ -512,8 +530,15 @@ if (!class_exists('WPLightPost')) {
 						<a id="post_upload" href="#"><?php _e('Image', c_wplp_text_domain); ?></a>
 						<span>(&lt;<?php echo ini_get('upload_max_filesize'); ?>)</span>
 <?php				} ?>
-				</p>
-				</div>
+					</p>
+					</div>
+<?php			} else { ?>
+					<div class="light-post-box" id="post_javascript">
+					<p>
+						<a href="<?php echo $_SERVER['REQUEST_URI'] . '&jquery=true'; ?>"><?php _e('Dynamic content', c_wplp_text_domain); ?></a>
+					</p>
+					</div>
+<?php			} ?>
 <?php
 				// Text box
 				$height = intval(get_option(c_wplp_option_height));
@@ -523,8 +548,8 @@ if (!class_exists('WPLightPost')) {
 				<textarea name="post_content" rows="20" cols="80" class="light-post-box"<?php echo $height; ?>><?php echo $post->post_content; ?></textarea>
 				<div class="light-post-box">
 				<p>
-					<input type="submit" name="save" class="button" value="<?php _e('Save Draft', c_wplp_text_domain); ?>" />
-					<input type="submit" name="publish" class="button-primary" value="<?php _e('Publish', c_wplp_text_domain); ?>" />
+					<input type="submit" name="save" class="button" value="<?php _e($post->post_status == 'draft' ? 'Save Draft' : 'Revert to Draft', c_wplp_text_domain); ?>" />
+					<input type="submit" name="publish" class="button-primary" value="<?php _e($post->post_status == 'draft' ? 'Publish' : 'Update', c_wplp_text_domain); ?>" />
 				</p>
 				<p>
 					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
@@ -550,6 +575,8 @@ if (!class_exists('WPLightPost')) {
 					$posts = $wpdb->get_results($query);
 					foreach ($posts as $post) {
 						$url = plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID='. $post->ID, __FILE__);
+						if ($use_jquery)
+							$url .= '&jquery=true';
 						$title = $post->post_title;
 						if (!$title)
 							$title = '-';
