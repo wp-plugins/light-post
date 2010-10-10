@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: post, posts, editor
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 0.7
+Stable tag: 1.0
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
@@ -55,6 +55,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 1.0 =
+* Url encode abspath
+
 = 0.7 =
 * Dynamic content (JavaScript, jquery) optional
 * New option: always dynamic content
@@ -86,6 +89,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 1.0 =
+Compatibility
 
 = 0.7 =
 New feature: dynamic content

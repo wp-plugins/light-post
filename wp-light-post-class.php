@@ -80,7 +80,7 @@ if (!class_exists('WPLightPost')) {
 
 		// Extend post meta box
 		function Post_submitbox_start() {
-			echo '<div><a href="' . plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID=', __FILE__) . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
+			echo '<div><a href="' . plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID=', __FILE__) . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
 		}
 
 		// Helper: get post id
@@ -95,7 +95,7 @@ if (!class_exists('WPLightPost')) {
 		function Login_redirect($redirect_to) {
 			global $user;
 			if (get_option(c_wplp_option_redirect) && !is_wp_error($user) && $user->has_cap('publish_posts'))
-				return plugins_url('wp-light-post.php?abspath=' . ABSPATH, __FILE__);
+				return plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH), __FILE__);
 			else
 				return $redirect_to;
 		}
@@ -103,7 +103,7 @@ if (!class_exists('WPLightPost')) {
 		// Filter: add row action
 		function Post_row_actions($actions, $post = null) {
 			if ($post)
-				$actions['light-post'] = '<a href="' . plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID='. $post->ID, __FILE__) . '">' . __('Light Post', c_wplp_text_domain) . '</a>';
+				$actions['light-post'] = '<a href="' . plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID='. $post->ID, __FILE__) . '">' . __('Light Post', c_wplp_text_domain) . '</a>';
 			return $actions;
 		}
 
@@ -398,7 +398,7 @@ if (!class_exists('WPLightPost')) {
 						onChange: function(file, extension) {},
 						onSubmit: function(file, extension) {
 							uploader.setData({
-								'abspath': '<?php echo ABSPATH; ?>',
+								'abspath': '<?php echo urlencode(ABSPATH); ?>',
 								'nonce': '<?php echo wp_create_nonce('light-post-upload'); ?>',
 								'size' : $('[name=post_image_size]').val(),
 								'post_ID' : '<?php echo $post->ID; ?>'
@@ -460,7 +460,7 @@ if (!class_exists('WPLightPost')) {
 				<a href="<?php echo wp_logout_url(); ?>" title="Logout"><?php _e('Logout', c_wplp_text_domain); ?></a>
 			</p>
 
-			<form name="post" action="<?php echo plugins_url('wp-light-post.php?abspath=' . ABSPATH, __FILE__); ?>" method="post">
+			<form name="post" action="<?php echo plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH), __FILE__); ?>" method="post">
 				<?php wp_nonce_field('light-post-form'); ?>
 				<input type="hidden" name="post_ID" value="<?php echo $post->ID; ?>" />
 				<input type="hidden" name="action" value="update" />
@@ -554,7 +554,7 @@ if (!class_exists('WPLightPost')) {
 				<p>
 					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
 					<a href="<?php echo admin_url('post.php?action=edit&post=' . $post->ID); ?>"><?php _e('Rich Edit', c_wplp_text_domain); ?></a>
-					<a href="<?php echo plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&action=new', __FILE__); ?>"><?php _e('New post', c_wplp_text_domain); ?></a>
+					<a href="<?php echo plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&action=new', __FILE__); ?>"><?php _e('New post', c_wplp_text_domain); ?></a>
 <?php				if (!get_option(c_wplp_option_donated)) { ?>
 						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank"><?php _e('Donate', c_wplp_text_domain); ?></a>
 <?php				} ?>
@@ -574,7 +574,7 @@ if (!class_exists('WPLightPost')) {
 					$query .= " LIMIT 0," . $posts;
 					$posts = $wpdb->get_results($query);
 					foreach ($posts as $post) {
-						$url = plugins_url('wp-light-post.php?abspath=' . ABSPATH . '&post_ID='. $post->ID, __FILE__);
+						$url = plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID='. $post->ID, __FILE__);
 						if ($use_jquery)
 							$url .= '&jquery=true';
 						$title = $post->post_title;
