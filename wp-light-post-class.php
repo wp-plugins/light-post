@@ -15,6 +15,11 @@ define('c_wplp_option_posts', 'wplp_posts');
 define('c_wplp_option_clean', 'wplp_clean');
 define('c_wplp_option_donated', 'wplp_donated');
 
+if (defined('ABSPATH')) {
+	require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+	require_once(ABSPATH . WPINC . '/pluggable.php');
+}
+
 // Define class
 if (!class_exists('WPLightPost')) {
 	class WPLightPost {
@@ -75,6 +80,13 @@ if (!class_exists('WPLightPost')) {
 					$css_url = plugins_url($css_name, __FILE__);
 				wp_register_style('light-post-style', $css_url);
 				wp_enqueue_style('light-post-style');
+
+				register_setting('wp-light-post', c_wplp_option_redirect);
+				register_setting('wp-light-post', c_wplp_option_jquery);
+				register_setting('wp-light-post', c_wplp_option_height);
+				register_setting('wp-light-post', c_wplp_option_posts);
+				register_setting('wp-light-post', c_wplp_option_clean);
+				register_setting('wp-light-post', c_wplp_option_donated);
 			}
 		}
 
@@ -120,7 +132,6 @@ if (!class_exists('WPLightPost')) {
 		// Render options page
 		function Options_page() {
 			if (current_user_can('manage_options')) {
-				$this->Render_pluginsponsor();
 				echo '<div class="wrap">';
 				$this->Render_info_panel();
 ?>
@@ -129,6 +140,7 @@ if (!class_exists('WPLightPost')) {
 
 				<form method="post" action="options.php">
 				<?php wp_nonce_field('update-options'); ?>
+				<?php settings_fields('wp-light-post'); ?>
 
 				<table class="form-table">
 
@@ -191,19 +203,6 @@ if (!class_exists('WPLightPost')) {
 			}
 			else
 				die('Unauthorized');
-		}
-
-		function Render_pluginsponsor() {
-			if (!get_option(c_wplp_option_donated)) {
-?>
-				<script type="text/javascript">
-				var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-				document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=light-post&spot=' type='text/javascript'%3E%3C/script%3E"));
-				</script>
-				<a id="light-post-sponsorship" href="http://pluginsponsors.com/privacy.html" target=_blank">
-				<?php _e('Privacy in the Sustainable Plugins Sponsorship Network', c_wplp_text_domain); ?></a>
-<?php
-			}
 		}
 
 		function Render_info_panel() {
@@ -312,7 +311,7 @@ if (!class_exists('WPLightPost')) {
 			global $wpdb;
 
 			// Get/update post
-			if ($_REQUEST['action'] == 'update') {
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'update') {
 				// Security check
 				check_admin_referer('light-post-form');
 
@@ -343,7 +342,8 @@ if (!class_exists('WPLightPost')) {
 			else if (isset($_REQUEST['post_ID']))
 				$post = get_post($_REQUEST['post_ID']);
 			else {
-				if ($_REQUEST['action'] != 'new') {
+				$post_id = null;
+				if (isset($_REQUEST['action']) && $_REQUEST['action'] != 'new') {
 					$query = "SELECT ID FROM $wpdb->posts";
 					$query .= " WHERE post_type = 'post'";
 					$query .= " AND (post_status = 'draft' OR post_status = 'publish')";
@@ -478,6 +478,7 @@ if (!class_exists('WPLightPost')) {
 					<tr><td><span class="light-post-title"><?php _e('Tags:', c_wplp_text_domain); ?></span></td>
 <?php
 					// Tags
+					$tags = '';
 					$tag_list = get_the_tags($post->ID);
 					if ($tag_list)
 						foreach ($tag_list as $tag) {

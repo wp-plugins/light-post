@@ -3,8 +3,8 @@ Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: post, posts, editor
 Requires at least: 2.9
-Tested up to: 3.0.1
-Stable tag: 1.0
+Tested up to: 3.2
+Stable tag: 1.2
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
@@ -55,6 +55,14 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 1.2 =
+* Bugfix for undefined function register_setting
+
+= 1.1 =
+* Tested with WordPress 3.2
+* Fixed some notices
+* Removed *Sustainable Plugins Sponsorship Network*
+
 = 1.0 =
 * Url encode abspath
 
@@ -89,6 +97,12 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 1.2 =
+Bugfix
+
+= 1.1 =
+Compatibility
 
 = 1.0 =
 Compatibility
