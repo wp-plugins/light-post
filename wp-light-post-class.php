@@ -15,6 +15,11 @@ define('c_wplp_option_posts', 'wplp_posts');
 define('c_wplp_option_clean', 'wplp_clean');
 define('c_wplp_option_donated', 'wplp_donated');
 
+if (defined('ABSPATH')) {
+	require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+	require_once(ABSPATH . WPINC . '/pluggable.php');
+}
+
 // Define class
 if (!class_exists('WPLightPost')) {
 	class WPLightPost {
