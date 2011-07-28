@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: post, posts, editor
 Requires at least: 2.9
 Tested up to: 3.2.1
-Stable tag: 1.3
+Stable tag: 1.4
 
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors
 
@@ -55,6 +55,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 
 == Changelog ==
 
+= 1.4 =
+* Style fix
+
 = 1.3 =
 * Added *Sustainable Plugins Sponsorship Network* again
 * Updated Dutch and Flemish translation
@@ -101,6 +104,9 @@ You can write comments on the [support page](http://blog.bokhorst.biz/4146/compu
 * Development version
 
 == Upgrade Notice ==
+
+= 1.4 =
+Compatibility
 
 = 1.3 =
 Compatibility

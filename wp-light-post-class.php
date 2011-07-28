@@ -109,7 +109,9 @@ if (!class_exists('WPLightPost')) {
 		// Filter: redirect login
 		function Login_redirect($redirect_to) {
 			global $user;
-			if (get_option(c_wplp_option_redirect) && !is_wp_error($user) && $user->has_cap('publish_posts'))
+			if (get_option(c_wplp_option_redirect) &&
+				!is_wp_error($user) &&
+				$user->has_cap('publish_posts'))
 				return plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH), __FILE__);
 			else
 				return $redirect_to;
@@ -477,7 +479,7 @@ if (!class_exists('WPLightPost')) {
 <?php		} ?>
 			</head>
 
-			<body id="light-post">
+			<body id="light-post-form">
 			<p>
 				<a href="<?php echo get_bloginfo('url'); ?>"><?php echo get_bloginfo('title'); ?></a>
 				<a href="<?php echo admin_url('index.php'); ?>"><?php _e('Admin', c_wplp_text_domain); ?></a>
