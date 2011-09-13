@@ -3,13 +3,13 @@
 Plugin Name: Light Post
 Plugin URI: http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/
 Description: Resource light alternate post management screen for use on slow connections and/or slow computers
-Version: 1.4
+Version: 1.5
 Author: Marcel Bokhorst
 Author URI: http://blog.bokhorst.biz/about/
 */
 
 /*
-	Copyright 2010 by Marcel Bokhorst
+	Copyright 2010, 2011 by Marcel Bokhorst
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -36,29 +36,12 @@ if (version_compare(PHP_VERSION, '5', '<'))
 if (!class_exists('WPLightPost'))
 	require_once('wp-light-post-class.php');
 
-$lp_request_uri = $_SERVER['REQUEST_URI'];
-$lp_query_string = $_SERVER['QUERY_STRING'];
-if ($lp_query_string)
-	$lp_request_uri = substr($lp_request_uri, 0, strpos($lp_request_uri, $lp_query_string) - 1);
+// Check pre-requisites
+WPLightPost::Check_prerequisites();
 
-if (basename($lp_request_uri) == basename(__FILE__) && isset($_REQUEST['abspath'])) {
-	// Create WordPress environment
-	require_once(urldecode($_REQUEST['abspath']) . 'wp-load.php');
-	require_once(urldecode($_REQUEST['abspath']) . 'wp-admin/includes/admin.php');
-	require_once(urldecode($_REQUEST['abspath']) . '/wp-admin/includes/plugin.php');
-	require_once(urldecode($_REQUEST['abspath']) . WPINC . '/pluggable.php');
-
-	// Handle request
-	WPLightPost::Handle_request();
-}
-else {
-	// Check pre-requisites
-	WPLightPost::Check_prerequisites();
-
-	// Start plugin
-	global $wp_light_post;
-	$wp_light_post = new WPLightPost();
-}
+// Start plugin
+global $wp_light_post;
+$wp_light_post = new WPLightPost();
 
 // That's it!
 
