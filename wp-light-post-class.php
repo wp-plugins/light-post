@@ -2,7 +2,7 @@
 
 /*
 	Support class Light Post
-	Copyright (c) 2010 by Marcel Bokhorst
+	Copyright (c) 2010, 2011 by Marcel Bokhorst
 */
 
 // Define constants
@@ -16,10 +16,8 @@ define('c_wplp_option_clean', 'wplp_clean');
 define('c_wplp_option_donated', 'wplp_donated');
 define('c_wplp_option_nospsn', 'wplp_nospsn');
 
-if (defined('ABSPATH')) {
-	require_once(ABSPATH . '/wp-admin/includes/plugin.php');
-	require_once(ABSPATH . WPINC . '/pluggable.php');
-}
+require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+require_once(ABSPATH . WPINC . '/pluggable.php');
 
 // Define class
 if (!class_exists('WPLightPost')) {
@@ -40,6 +38,7 @@ if (!class_exists('WPLightPost')) {
 			}
 			add_filter('login_redirect', array(&$this, 'Login_redirect'));
 			add_filter('post_row_actions', array(&$this, 'Post_row_actions'), 10, 2);
+			add_action('wp_ajax_light', array(&$this, 'Check_ajax'));
 		}
 
 		// Handle plugin activation
@@ -95,7 +94,7 @@ if (!class_exists('WPLightPost')) {
 
 		// Extend post meta box
 		function Post_submitbox_start() {
-			echo '<div><a href="' . plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID=', __FILE__) . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
+			echo '<div><a href="' . admin_url('admin-ajax.php?action=light&post_ID=') . self::Get_post_id() . '">' . __('Light Post', c_wplp_text_domain) . '</a></div>';
 		}
 
 		// Helper: get post id
@@ -112,7 +111,7 @@ if (!class_exists('WPLightPost')) {
 			if (get_option(c_wplp_option_redirect) &&
 				!is_wp_error($user) &&
 				$user->has_cap('publish_posts'))
-				return plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH), __FILE__);
+				return admin_url('admin-ajax.php?action=light');
 			else
 				return $redirect_to;
 		}
@@ -120,7 +119,7 @@ if (!class_exists('WPLightPost')) {
 		// Filter: add row action
 		function Post_row_actions($actions, $post = null) {
 			if ($post)
-				$actions['light-post'] = '<a href="' . plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID='. $post->ID, __FILE__) . '">' . __('Light Post', c_wplp_text_domain) . '</a>';
+				$actions['light-post'] = '<a href="' . admin_url('admin-ajax.php?action=light&post_ID='. $post->ID) . '">' . __('Light Post', c_wplp_text_domain) . '</a>';
 			return $actions;
 		}
 
@@ -249,6 +248,11 @@ if (!class_exists('WPLightPost')) {
 <?php		} ?>
 			</div>
 <?php
+		}
+
+		function Check_ajax() {
+			self::Handle_request();
+			exit();
 		}
 
 		// Handle direct request
@@ -417,14 +421,14 @@ if (!class_exists('WPLightPost')) {
 				jQuery(document).ready(function($) {
 					/* Instantiate ajax upload */
 					var uploader = new AjaxUpload('post_upload', {
-						action: '<?php echo plugins_url('wp-light-post.php', __FILE__); ?>',
+						action: '<?php echo admin_url('admin-ajax.php'); ?>',
 						name: 'post_upload',
 						autoSubmit: true,
 						responseType: false,
 						onChange: function(file, extension) {},
 						onSubmit: function(file, extension) {
 							uploader.setData({
-								'abspath': '<?php echo urlencode(ABSPATH); ?>',
+								'action': 'light',
 								'nonce': '<?php echo wp_create_nonce('light-post-upload'); ?>',
 								'size' : $('[name=post_image_size]').val(),
 								'post_ID' : '<?php echo $post->ID; ?>'
@@ -486,7 +490,7 @@ if (!class_exists('WPLightPost')) {
 				<a href="<?php echo wp_logout_url(); ?>" title="Logout"><?php _e('Logout', c_wplp_text_domain); ?></a>
 			</p>
 
-			<form name="post" action="<?php echo plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH), __FILE__); ?>" method="post">
+			<form name="post" action="<?php echo admin_url('admin-ajax.php?action=light'); ?>" method="post">
 				<?php wp_nonce_field('light-post-form'); ?>
 				<input type="hidden" name="post_ID" value="<?php echo $post->ID; ?>" />
 				<input type="hidden" name="action" value="update" />
@@ -581,7 +585,7 @@ if (!class_exists('WPLightPost')) {
 				<p>
 					<a href="<?php echo self::Get_preview_link($post); ?>" target="_blank"><?php _e('Preview', c_wplp_text_domain); ?></a>
 					<a href="<?php echo admin_url('post.php?action=edit&post=' . $post->ID); ?>"><?php _e('Rich Edit', c_wplp_text_domain); ?></a>
-					<a href="<?php echo plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&action=new', __FILE__); ?>"><?php _e('New post', c_wplp_text_domain); ?></a>
+					<a href="<?php echo admin_url('admin-ajax.php?action=light&action=new', __FILE__); ?>"><?php _e('New post', c_wplp_text_domain); ?></a>
 <?php				if (!get_option(c_wplp_option_donated)) { ?>
 						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Light%20Post%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank"><?php _e('Donate', c_wplp_text_domain); ?></a>
 <?php				} ?>
@@ -601,7 +605,7 @@ if (!class_exists('WPLightPost')) {
 					$query .= " LIMIT 0," . $posts;
 					$posts = $wpdb->get_results($query);
 					foreach ($posts as $post) {
-						$url = plugins_url('wp-light-post.php?abspath=' . urlencode(ABSPATH) . '&post_ID='. $post->ID, __FILE__);
+						$url = admin_url('admin-ajax.php?action=light&post_ID='. $post->ID, __FILE__);
 						if ($use_jquery)
 							$url .= '&jquery=true';
 						$title = $post->post_title;
