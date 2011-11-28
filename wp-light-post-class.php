@@ -14,7 +14,6 @@ define('c_wplp_option_height', 'wplp_height');
 define('c_wplp_option_posts', 'wplp_posts');
 define('c_wplp_option_clean', 'wplp_clean');
 define('c_wplp_option_donated', 'wplp_donated');
-define('c_wplp_option_nospsn', 'wplp_nospsn');
 
 require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 require_once(ABSPATH . WPINC . '/pluggable.php');
@@ -62,7 +61,6 @@ if (!class_exists('WPLightPost')) {
 				delete_option(c_wplp_option_posts);
 				delete_option(c_wplp_option_clean);
 				delete_option(c_wplp_option_donated);
-				delete_option(c_wplp_option_nospsn);
 			}
 		}
 
@@ -88,7 +86,6 @@ if (!class_exists('WPLightPost')) {
 				register_setting('wp-light-post', c_wplp_option_posts);
 				register_setting('wp-light-post', c_wplp_option_clean);
 				register_setting('wp-light-post', c_wplp_option_donated);
-				register_setting('wp-light-post', c_wplp_option_nospsn);
 			}
 		}
 
@@ -136,7 +133,6 @@ if (!class_exists('WPLightPost')) {
 		// Render options page
 		function Options_page() {
 			if (current_user_can('manage_options')) {
-				$this->Render_pluginsponsor();
 				echo '<div class="wrap">';
 				$this->Render_info_panel();
 ?>
@@ -186,12 +182,6 @@ if (!class_exists('WPLightPost')) {
 					<input id="wplp_opt_donated" name="<?php echo c_wplp_option_donated; ?>" type="checkbox"<?php if (get_option(c_wplp_option_donated)) echo ' checked="checked"'; ?> />
 				</td></tr>
 
-				<tr valign="top"><th scope="row">
-					<label for="wplp_opt_nospsn"><?php _e('I don\'t want to support this plugin with the Sustainable Plugins Sponsorship Network:', c_wplp_text_domain); ?></label>
-				</th><td>
-					<input id="wplp_opt_nospsn" name="<?php echo c_wplp_option_nospsn; ?>" type="checkbox"<?php if (get_option(c_wplp_option_nospsn)) echo ' checked="checked"'; ?> />
-				</td></tr>
-
 				</table>
 <?php
 				$options[] = c_wplp_option_redirect;
@@ -200,7 +190,6 @@ if (!class_exists('WPLightPost')) {
 				$options[] = c_wplp_option_posts;
 				$options[] = c_wplp_option_clean;
 				$options[] = c_wplp_option_donated;
-				$options[] = c_wplp_option_nospsn;
 ?>
 				<input type="hidden" name="action" value="update" />
 				<input type="hidden" name="page_options" value="<?php echo implode(',', $options); ?>" />
@@ -215,19 +204,6 @@ if (!class_exists('WPLightPost')) {
 			}
 			else
 				die('Unauthorized');
-		}
-
-		function Render_pluginsponsor() {
-			if (!get_option(c_wplp_option_nospsn)) {
-?>
-				<script type="text/javascript">
-				var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-				document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=light-post&spot=' type='text/javascript'%3E%3C/script%3E"));
-				</script>
-				<a id="light-post-sponsorship" href="http://pluginsponsors.com/privacy.html" target=_blank">
-				<?php _e('Privacy in the Sustainable Plugins Sponsorship Network', c_wplp_text_domain); ?></a>
-<?php
-			}
 		}
 
 		function Render_info_panel() {
