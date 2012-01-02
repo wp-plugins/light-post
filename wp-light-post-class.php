@@ -2,7 +2,7 @@
 
 /*
 	Support class Light Post
-	Copyright (c) 2010, 2011 by Marcel Bokhorst
+	Copyright (c) 2010, 2011, 2012 by Marcel Bokhorst
 */
 
 // Define constants
@@ -107,7 +107,8 @@ if (!class_exists('WPLightPost')) {
 			global $user;
 			if (get_option(c_wplp_option_redirect) &&
 				!is_wp_error($user) &&
-				$user->has_cap('publish_posts'))
+				$user->has_cap('publish_posts') &&
+				$redirect_to == admin_url())
 				return admin_url('admin-ajax.php?action=light');
 			else
 				return $redirect_to;
