@@ -10,6 +10,8 @@ Resource light alternate post management screen for use on slow connections and/
 
 == Description ==
 
+**This plugin is no longer supported**
+
 Resource light alternate post management screen for use on slow connections and/or slow computers and/or old monitors. Publish and edit posts using a basic high contrast HTML editor, which can be used without JavaScript and Flash.
 When JavaScript is available it is possible to upload and insert images.
 After logging in the browser is redirected directly to an alternate post management screen outside the normal WordPress environment (this can be turned off with a setting).
@@ -18,7 +20,7 @@ The standard rich edit screen is just one click away (and visa versa).
 Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/ "Marcel's weblog"), so I can at least try to fix it.
 If you rate this plugin low, please [let me know why](http://blog.bokhorst.biz/4146/computers-en-internet/wordpress-plugin-light-post/#respond "Marcel's weblog").
 
-See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst")
+See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
 == Installation ==
 
